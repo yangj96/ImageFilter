@@ -1,0 +1,17 @@
+C:\Users\admin\source\repos\ImageFilter\ImageFilter\bin\Release\ImageFilter.exe.config
+C:\Users\admin\source\repos\ImageFilter\ImageFilter\bin\Release\ImageFilter.exe
+C:\Users\admin\source\repos\ImageFilter\ImageFilter\bin\Release\ImageFilter.pdb
+C:\Users\admin\source\repos\ImageFilter\ImageFilter\bin\Release\ColorMine.dll
+C:\Users\admin\source\repos\ImageFilter\ImageFilter\obj\Release\ImageFilter.csprojAssemblyReference.cache
+C:\Users\admin\source\repos\ImageFilter\ImageFilter\obj\Release\MainWindow.g.cs
+C:\Users\admin\source\repos\ImageFilter\ImageFilter\obj\Release\App.g.cs
+C:\Users\admin\source\repos\ImageFilter\ImageFilter\obj\Release\ImageFilter_MarkupCompile.cache
+C:\Users\admin\source\repos\ImageFilter\ImageFilter\obj\Release\ImageFilter_MarkupCompile.lref
+C:\Users\admin\source\repos\ImageFilter\ImageFilter\obj\Release\MainWindow.baml
+C:\Users\admin\source\repos\ImageFilter\ImageFilter\obj\Release\ImageFilter.g.resources
+C:\Users\admin\source\repos\ImageFilter\ImageFilter\obj\Release\ImageFilter.Properties.Resources.resources
+C:\Users\admin\source\repos\ImageFilter\ImageFilter\obj\Release\ImageFilter.csproj.GenerateResource.cache
+C:\Users\admin\source\repos\ImageFilter\ImageFilter\obj\Release\ImageFilter.csproj.CoreCompileInputs.cache
+C:\Users\admin\source\repos\ImageFilter\ImageFilter\obj\Release\ImageFilter.csproj.CopyComplete
+C:\Users\admin\source\repos\ImageFilter\ImageFilter\obj\Release\ImageFilter.exe
+C:\Users\admin\source\repos\ImageFilter\ImageFilter\obj\Release\ImageFilter.pdb

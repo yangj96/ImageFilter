@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\Users\admin\source\repos\ImageFilter\ImageFilter\obj\Debug\
+C:\Users\admin\source\repos\ImageFilter\ImageFilter\obj\Release\
 ImageFilter
 none
 false
-DEBUG;TRACE
+TRACE
 C:\Users\admin\source\repos\ImageFilter\ImageFilter\App.xaml
 11151548125
 
-7848669867
-131569487696
+10498727761
+141453601862
 MainWindow.xaml;
 
 False

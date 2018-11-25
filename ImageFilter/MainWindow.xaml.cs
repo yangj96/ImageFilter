@@ -71,13 +71,22 @@ namespace ImageFilter
         private void button1_Click(object sender, RoutedEventArgs e)
         {
             BitmapSource inputSource = (BitmapSource)inputImage;
-            LomoFilter lomoFilter = new LomoFilter();
-            outputImage = lomoFilter.process(ref inputSource);
+            if (inputSource == null)
+            {
+                MessageBox.Show("请先打开一张图片！", "ERROR");
+                return;
+            }
+            outputImage = LomoFilter.process(ref inputSource);
             image1.Source = outputImage;
         }
 
         private void button2_Click(object sender, RoutedEventArgs e)
         {
+            if (this.image1.Source == null)
+            {
+                MessageBox.Show("没有处理完成的图片！", "ERROR");
+                return;
+            }
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Image File(*.bmp,*.png,*.jpg,*.jpeg)|*.bmp;*.png;*.jpg;*.jpeg";
             saveFileDialog.RestoreDirectory = true;
@@ -95,7 +104,26 @@ namespace ImageFilter
         /// </summary>
         private void button3_Click(object sender, RoutedEventArgs e)
         {
-
+            BitmapSource inputSource = (BitmapSource)inputImage;
+            if (inputSource == null)
+            {
+                MessageBox.Show("请先打开一张图片！", "ERROR");
+                return;
+            }
+            if (textbox1.Text.Trim() == "")
+            {
+                MessageBox.Show("请设置聚类中心个数！", "ERROR");
+                return;
+            }
+            double centerNum = Double.Parse(textbox1.Text.Trim());
+            if (textbox2.Text.Trim() == "")
+            {
+                MessageBox.Show("请设置M值大小！", "ERROR");
+                return;
+            }
+            double m = Double.Parse(textbox2.Text.Trim()); ;
+            outputImage = Crystallize.process(ref inputSource, centerNum, m);
+            image1.Source = outputImage;
         }
     }
 }

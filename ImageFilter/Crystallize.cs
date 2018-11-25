@@ -11,7 +11,7 @@ namespace ImageFilter
 {
     class Crystallize
     {
-        private byte[] bitmapSourceToArray(BitmapSource bitmapSource, int stride)
+        private static byte[] bitmapSourceToArray(BitmapSource bitmapSource, int stride)
         {
             // Stride = (width) * (bytes per pixel)
             byte[] pixels = new byte[(int)bitmapSource.PixelHeight * stride];
@@ -21,7 +21,7 @@ namespace ImageFilter
             return pixels;
         }
 
-        private BitmapSource bitmapSourceFromArray(byte[] pixels, int height, int width)
+        private static BitmapSource bitmapSourceFromArray(byte[] pixels, int height, int width)
         {
             WriteableBitmap bitmap = new WriteableBitmap(width, height, 96, 96, PixelFormats.Bgra32, null);
 
@@ -30,58 +30,50 @@ namespace ImageFilter
             return bitmap;
         }
 
-        public BitmapSource process (ref BitmapSource img)
+        public static BitmapSource process (ref BitmapSource img, double centerNum, double m)
         {
             int h = img.PixelHeight;
             int w = img.PixelWidth;
-
-            FormatConvertedBitmap greyImg = new FormatConvertedBitmap();
-            greyImg.BeginInit();
-            greyImg.Source = img;
-            greyImg.DestinationFormat = PixelFormats.Gray8;
-            greyImg.EndInit();
-            int greyStride = (int)greyImg.PixelWidth * (greyImg.Format.BitsPerPixel / 8);
-            byte[] pixels = new byte[h * greyStride];
-            greyImg.CopyPixels(pixels, greyStride, 0);
-            byte[,] grey = new byte[h, w];
+            int stride = w * (img.Format.BitsPerPixel / 8);
+            //获取像素数据
+            byte[] imgPixels = bitmapSourceToArray(img, stride);
+            //将像素数组分别转换为rgb数组
+            byte[,] rband = new byte[h, w];
+            byte[,] gband = new byte[h, w];
+            byte[,] bband = new byte[h, w];
+            byte[,] alpha = new byte[h, w];
             int p = 0;
             for (int i = 0; i < h; ++i)
             {
                 for (int j = 0; j < w; ++j)
                 {
-                    grey[i, j] = pixels[p++];
+                    // 每个像素的指针是按BGRA的顺序存储
+                    alpha[i, j] = imgPixels[p + 3];
+                    rband[i, j] = imgPixels[p + 2];
+                    gband[i, j] = imgPixels[p + 1];
+                    bband[i, j] = imgPixels[p];
+                    p += 4;   // 偏移一个像素
                 }
             }
 
-            ////右下灰度梯度
-            //d[0, 0] = (Math.Abs(grey[0, 1] - grey[0, 0]) + Math.Abs(grey[1, 0] - grey[0, 0]));
-            //d[0, w - 1] = (Math.Abs(grey[1, w - 1] - grey[0, w - 1])) * 2;
-            //d[h - 1, 0] = (Math.Abs(grey[h - 1, 1] - grey[h - 1, 0])) * 2;
-            //d[h - 1, w - 1] = 0;
+            SLIC.ApplyEffect(ref rband, ref gband, ref bband, w, h, centerNum, m);
 
-            //for (int i = 1; i < w - 1; i++)
-            //{
-            //    d[0, i] = Math.Abs(grey[0, i + 1] - grey[0, i]) + Math.Abs(grey[1, i] - grey[0, i]);
-            //    d[h - 1, i] = Math.Abs(grey[h - 1, i + 1] - grey[h - 1, i]) + Math.Abs(grey[h - 2, i] - grey[h - 1, i]);
-            //}
-
-            //for (int i = 1; i < h - 1; i++)
-            //{
-            //    d[i, 0] = Math.Abs(grey[i + 1, 0] - grey[i, 0]) + Math.Abs(grey[i, 1] - grey[i, 0]);
-            //    d[i, w - 1] = Math.Abs(grey[i + 1, w - 1] - grey[i, w - 1]) * 2;
-            //}
-
-            //for (int i = 1; i < h - 1; i++)
-            //{
-            //    for (int j = 1; j < w - 1; j++)
-            //    {
-            //        d[i, j] = Math.Abs(grey[i + 1, j] - grey[i, j]) + Math.Abs(grey[i, j + 1] - grey[i, j]);
-            //    }
-            //}
-
+            //根据rgb数组构造返回byte数组
             int resW = w;
             int resH = h;
             byte[] resPixels = new byte[resH * resW * 4];
+            int resP = 0;
+            for (int i = 0; i < resH; ++i)
+            {
+                for (int j = 0; j < resW; ++j)
+                {
+                    resPixels[resP] = bband[i, j];
+                    resPixels[resP + 1] = gband[i, j];
+                    resPixels[resP + 2] = rband[i, j];
+                    resPixels[resP + 3] = alpha[i, j];
+                    resP += 4;   // 偏移一个像素
+                }
+            }
 
             BitmapSource res = bitmapSourceFromArray(resPixels, h, w);
             return res;
